@@ -5,16 +5,13 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Admin Dashboard</div>
+                <div class="card-header">{{ __('Admin Dashboard') }}</div>
 
                 <div class="card-body">
-                    <h4>Welcome, Admin!</h4>
-                    <p>You have full access to the system.</p>
-                    <ul>
-                        <li>Manage Users</li>
-                        <li>View Reports</li>
-                        <li>Manage Settings</li>
-                    </ul>
+                    <p>Welcome, {{ auth()->user()->name }}!</p>
+                    <p>Your role: {{ auth()->user()->role }}</p>
+
+                    <!-- Add admin-specific content here -->
                 </div>
             </div>
         </div>

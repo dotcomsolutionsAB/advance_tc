@@ -13,11 +13,62 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
+    <!-- Styles -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Styles (optional) -->
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f8f9fa; /* Light background */
+        }
+        .navbar {
+            background-color: #ffffff; /* White background for the navbar */
+            border-bottom: 1px solid #dee2e6; /* Subtle shadow */
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0d6efd; /* Bootstrap primary color */
+        }
+        .navbar-nav .nav-link {
+            color: #495057; /* Darker text color */
+        }
+        .navbar-nav .nav-link:hover {
+            color: #0d6efd; /* Primary color on hover */
+        }
+        .dropdown-menu {
+            border-radius: 0.5rem;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .dropdown-item:hover {
+            background-color: #f1f1f1; /* Light hover effect */
+        }
+        .navbar-toggler {
+            border: none;
+        }
+        .navbar-toggler:focus {
+            outline: none;
+            box-shadow: none;
+        }
+        .main-content {
+            padding: 2rem;
+        }
+        footer {
+            background-color: #0d6efd;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+    </style>
+
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
     <div id="app">
+        <!-- Navbar -->
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -30,7 +81,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-                        <!-- Add any left navbar content here if needed -->
+                        <!-- Add any left navbar content here -->
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -51,17 +102,15 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->username }}  <!-- Change 'name' to 'username' -->
+                                    {{ Auth::user()->username }} <!-- Show username -->
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <!-- Logout Link -->
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        <i class="fas fa-sign-out-alt me-1"></i> {{ __('Logout') }}
                                     </a>
 
-                                    <!-- Logout Form -->
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
@@ -73,9 +122,18 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <!-- Main Content -->
+        <main class="main-content py-4">
             @yield('content')
         </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; {{ date('Y') }} {{ config('app.name', 'Laravel') }}. All rights reserved.</p>
+        </footer>
     </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

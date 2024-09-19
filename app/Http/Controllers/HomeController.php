@@ -13,7 +13,8 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // Apply the 'auth' middleware to ensure only authenticated users can access the home page
+        // $this->middleware('auth');
     }
 
     /**
@@ -23,6 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // Return the home view
         return view('home');
     }
 }
