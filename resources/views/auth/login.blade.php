@@ -12,7 +12,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="email">Email or Mobile</label>
-                            <input type="text" name="email" id="email" class="form-control" placeholder="Enter Email or Mobile" required autofocus>
+                            <input type="text" name="email_or_mobile" id="email_or_mobile" class="form-control" placeholder="Enter Email or Mobile" required autofocus>
                         </div>
                         
                         <div class="form-group">

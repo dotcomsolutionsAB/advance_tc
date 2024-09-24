@@ -79,22 +79,43 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
+    // public function login(Request $request)
+    // {
+    //     // Validate the incoming request
+    //     $request->validate([
+    //         'email' => 'required|string|email',
+    //         'password' => 'required|string',
+    //     ]);
+
+    //     // Attempt to log in the user using email and password
+    //     if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+    //         // If login is successful, check the role and redirect for web
+    //         return redirect()->intended($this->redirectTo());
+    //     }
+
+    //     // If login fails, return back to login page with an error message
+    //     return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
+    // }
+
     public function login(Request $request)
     {
         // Validate the incoming request
         $request->validate([
-            'email' => 'required|string|email',
+            'email_or_mobile' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        // Attempt to log in the user using email and password
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        // Determine if the input is an email or mobile number
+        $loginField = filter_var($request->email_or_mobile, FILTER_VALIDATE_EMAIL) ? 'email' : 'mobile';
+
+        // Attempt to log in the user using email/mobile and password
+        if (Auth::attempt([$loginField => $request->email_or_mobile, 'password' => $request->password])) {
             // If login is successful, check the role and redirect for web
             return redirect()->intended($this->redirectTo());
         }
 
         // If login fails, return back to login page with an error message
-        return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
+        return back()->withErrors(['email_or_mobile' => 'Invalid credentials'])->withInput();
     }
 
     /**
