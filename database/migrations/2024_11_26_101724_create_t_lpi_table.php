@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('mtc_id');
             $table->string('title');
-            $table->enum('type', ['reducer', 'tee', 'elbow', 'flange']); 
+            $table->string('type'); 
             $table->string('batch_no');  
             $table->date('mfg_date');  
             $table->date('expiry_date');
