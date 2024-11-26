@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('t_mpe', function (Blueprint $table) {
             $table->id();
             $table->integer('mtc_id');
-            $table->string('testing_equation');
+            $table->string('testing_equipment');
             $table->string('magnetic_particle');
             $table->string('wet_dry');  
             $table->string('color');
