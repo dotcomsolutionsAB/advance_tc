@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('material', function (Blueprint $table) {
+        Schema::create('t_material', function (Blueprint $table) {
             $table->id();
             $table->string('name')->default('');
             $table->string('template')->default('');

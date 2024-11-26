@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('certificate', function (Blueprint $table) {
+        Schema::create('t_certificate', function (Blueprint $table) {
             $table->id();
             $table->string('c_no')->unique(); // Certificate number, unique string
             $table->unsignedBigInteger('product_id'); // Foreign key for product
@@ -34,7 +34,7 @@ return new class extends Migration
             $table->timestamps();
     
             // Foreign key constraint to link product_id to product table
-            $table->foreign('product_id')->references('id')->on('product')->onDelete('cascade');
+            // $table->foreign('product_id')->references('id')->on('product')->onDelete('cascade');
         });
     }
     

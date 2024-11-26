@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('physical', function (Blueprint $table) {
+        Schema::create('t_physical', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('material_id'); // Foreign key for material
             $table->float('temperature', 8, 2)->default(0); // Floating point with precision
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
             
             // Foreign key constraint to link material_id to material table
-            $table->foreign('material_id')->references('id')->on('material')->onDelete('cascade');
+            // $table->foreign('material_id')->references('id')->on('material')->onDelete('cascade');
         });
     }
     

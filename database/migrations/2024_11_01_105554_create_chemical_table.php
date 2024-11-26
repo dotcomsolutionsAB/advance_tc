@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('chemical', function (Blueprint $table) {
+        Schema::create('t_chemical', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('material_id'); // Foreign key for material
             $table->string('chemical')->default(''); // Chemical name or type as string
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
             
             // Foreign key constraint to link material_id to material table
-            $table->foreign('material_id')->references('id')->on('material')->onDelete('cascade');
+            // $table->foreign('material_id')->references('id')->on('material')->onDelete('cascade');
         });
     }
     

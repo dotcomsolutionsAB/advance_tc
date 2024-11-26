@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('t_counter', function (Blueprint $table) {
+        Schema::create('t_mtc_items', function (Blueprint $table) {
             $table->id();
-            $table->string('key')->default('');
-            $table->string('series')->default('');
-            $table->string('value')->default('');
-            $table->string('prefix')->default('');
-            $table->string('suffix')->default('');
+            $table->integer('mtc_id');
+            $table->string('product');
+            $table->string('material_code');
+            $table->integer('quantity');  
+            $table->string('heat_no');  
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('counter');
+        Schema::dropIfExists('t_mtc_items');
     }
 };

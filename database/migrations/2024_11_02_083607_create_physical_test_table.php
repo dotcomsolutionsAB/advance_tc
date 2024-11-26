@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('physical_test', function (Blueprint $table) {
+        Schema::create('t_physical_test', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('material_id');
             $table->float('elongation_start', 8, 2)->default(0); // Floating point with precision
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->float('yield_end', 8, 2)->default(0);
             $table->timestamps();
 
-            $table->foreign('material_id')->references('id')->on('material')->onDelete('cascade');
+            // $table->foreign('material_id')->references('id')->on('material')->onDelete('cascade');
        
         });
         

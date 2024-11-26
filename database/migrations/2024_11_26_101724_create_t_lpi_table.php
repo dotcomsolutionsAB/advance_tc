@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('t_counter', function (Blueprint $table) {
+        Schema::create('t_lpi', function (Blueprint $table) {
             $table->id();
-            $table->string('key')->default('');
-            $table->string('series')->default('');
-            $table->string('value')->default('');
-            $table->string('prefix')->default('');
-            $table->string('suffix')->default('');
+            $table->integer('mtc_id');
+            $table->string('title');
+            $table->enum('type', ['reducer', 'tee', 'elbow', 'flange']); 
+            $table->string('batch_no');  
+            $table->date('mfg_date');  
+            $table->date('expiry_date');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('counter');
+        Schema::dropIfExists('t_lpi');
     }
 };

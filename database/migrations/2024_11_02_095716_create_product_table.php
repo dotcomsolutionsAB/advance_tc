@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product', function (Blueprint $table) {
+        Schema::create('t_product', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('material_id');  // Foreign key to 'material' table, assuming an integer ID
             $table->string('alpha')->default('');
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->timestamps();
             
             // If you want to define a foreign key relationship with 'material' table
-            $table->foreign('material_id')->references('id')->on('material')->onDelete('cascade');
+            // $table->foreign('material_id')->references('id')->on('material')->onDelete('cascade');
         });
     }
     
