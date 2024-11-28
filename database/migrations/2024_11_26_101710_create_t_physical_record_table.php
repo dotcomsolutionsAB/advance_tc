@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('t_physical_record', function (Blueprint $table) {
             $table->id();
+            $table->integer('tc_id');
             $table->integer('mtc_id');
             $table->string('heat_no'); 
             $table->string('label');
