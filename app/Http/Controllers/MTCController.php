@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\MTCModel;
 use App\Models\MTCItemsModel;
-use App\Models\CounterModels;
+use App\Models\CounterModel;
+use App\Models\LpiModel;
+use App\Models\MPEModel;
 
 class MTCController extends Controller
 {
@@ -39,6 +41,8 @@ class MTCController extends Controller
             'edition' => $request->input('edition'),
         ]);
 
+        unset($record['id'], $record['created_at'], $record['updated_at']);
+
         return response()->json(['message' => 'MTC record created successfully!', 'data' => $record], 201);
     }
 
@@ -54,7 +58,10 @@ class MTCController extends Controller
         }
 
         $records = MTCModel::all()->makeHidden(['id', 'created_at', 'updated_at']);
-        return response()->json($records);
+
+        return isset($records) && $records->isNotEmpty()
+        ? response()->json(['Fetch data successfully!', 'data' => $records, 'count' => count($records)], 200)
+        : response()->json(['Sorry, No data Available'], 400); 
     }
 
     // Update
@@ -91,6 +98,8 @@ class MTCController extends Controller
             'edition' => $request->input('edition', $record->edition),
         ]);
 
+        unset($record['id'], $record['created_at'], $record['updated_at']);
+
         return response()->json(['message' => 'MTC record updated successfully!', 'data' => $record]);
     }
 
@@ -126,6 +135,8 @@ class MTCController extends Controller
             'heat_no' => $request->input('heat_no'),
         ]);
 
+        unset($item['id'], $item['created_at'], $item['updated_at']);
+
         return response()->json(['message' => 'Item created successfully!', 'data' => $item], 201);
     }
 
@@ -141,7 +152,10 @@ class MTCController extends Controller
         }
 
         $items = MTCItemsModel::all()->makeHidden(['id', 'created_at', 'updated_at']);
-        return response()->json($items);
+
+        return isset($items) && $items->isNotEmpty()
+        ? response()->json(['Fetch data successfully!', 'data' => $items, 'count' => count($items)], 200)
+        : response()->json(['Sorry, No data Available'], 400); 
     }
 
     // Update
@@ -167,6 +181,8 @@ class MTCController extends Controller
             'quantity' => $request->input('quantity', $item->quantity),
             'heat_no' => $request->input('heat_no', $item->heat_no),
         ]);
+
+        unset($item['created_at'], $item['updated_at']);
 
         return response()->json(['message' => 'Item updated successfully!', 'data' => $item]);
     }
@@ -203,6 +219,8 @@ class MTCController extends Controller
             'suffix' => $request->input('suffix', ''),
         ]);
 
+        unset($counter['id'], $counter['created_at'], $counter['updated_at']);
+
         return response()->json(['message' => 'Counter created successfully!', 'data' => $counter], 201);
     }
 
@@ -218,7 +236,10 @@ class MTCController extends Controller
         }
 
         $counters = CounterModel::all()->makeHidden(['created_at', 'updated_at']);
-        return response()->json($counters);
+
+        return isset($counters) && $counters->isNotEmpty()
+        ? response()->json(['Fetch data successfully!', 'data' => $counters, 'count' => count($counters)], 200)
+        : response()->json(['Sorry, No data Available'], 400); 
     }
 
     // Update
@@ -244,6 +265,8 @@ class MTCController extends Controller
             'prefix' => $request->input('prefix', $counter->prefix),
             'suffix' => $request->input('suffix', $counter->suffix),
         ]);
+        
+        unset($counter['created_at'], $counter['updated_at']);
 
         return response()->json(['message' => 'Counter updated successfully!', 'data' => $counter]);
     }
@@ -260,4 +283,180 @@ class MTCController extends Controller
 
         return response()->json(['message' => 'Counter deleted successfully!']);
     }
+
+    // Create
+    public function create_lpi(Request $request)
+    {
+        $request->validate([
+            'mtc_id' => 'required|integer',
+            'title' => 'required|string',
+            'type' => 'required|string',
+            'batch_no' => 'required|string',
+            'mfg_date' => 'required|date',
+            'expiry_date' => 'required|date',
+        ]);
+
+        $lpi = LpiModel::create([
+            'mtc_id' => $request->input('mtc_id'),
+            'title' => $request->input('title'),
+            'type' => $request->input('type'),
+            'batch_no' => $request->input('batch_no'),
+            'mfg_date' => $request->input('mfg_date'),
+            'expiry_date' => $request->input('expiry_date'),
+        ]);
+
+        unset($lpi['id'], $lpi['created_at'], $lpi['updated_at']);
+
+        return response()->json(['message' => 'LPI created successfully!', 'data' => $lpi], 201);
+    }
+
+    // View all or single
+    public function view_lpis(Request $request, $id = null)
+    {
+        if ($id) {
+            $lpi = LpiModel::find($id);
+            if (!$lpi) {
+                return response()->json(['message' => 'LPI not found.'], 404);
+            }
+            return response()->json($lpi->makeHidden(['id', 'created_at', 'updated_at']));
+        }
+
+        $lpis = LpiModel::all()->makeHidden(['id', 'created_at', 'updated_at']);
+
+        return isset($lpis) && $lpis->isNotEmpty()
+            ? response()->json(['Fetch data successfully!', 'data' => $lpis, 'count' => count($lpis)], 200)
+            : response()->json(['Sorry, No data Available'], 400);
+    }
+
+    // Update
+    public function update_lpi(Request $request, $id)
+    {
+        $lpi = LpiModel::find($id);
+        if (!$lpi) {
+            return response()->json(['message' => 'LPI not found.'], 404);
+        }
+
+        $request->validate([
+            'mtc_id' => 'sometimes|integer',
+            'title' => 'sometimes|string',
+            'type' => 'sometimes|string',
+            'batch_no' => 'sometimes|string',
+            'mfg_date' => 'sometimes|date',
+            'expiry_date' => 'sometimes|date',
+        ]);
+
+        $lpi->update([
+            'mtc_id' => $request->input('mtc_id', $lpi->mtc_id),
+            'title' => $request->input('title', $lpi->title),
+            'type' => $request->input('type', $lpi->type),
+            'batch_no' => $request->input('batch_no', $lpi->batch_no),
+            'mfg_date' => $request->input('mfg_date', $lpi->mfg_date),
+            'expiry_date' => $request->input('expiry_date', $lpi->expiry_date),
+        ]);
+
+        unset($lpi['created_at'], $lpi['updated_at']);
+
+        return response()->json(['message' => 'LPI updated successfully!', 'data' => $lpi]);
+    }
+
+    // Delete
+    public function delete_lpi($id)
+    {
+        $lpi = LpiModel::find($id);
+        if (!$lpi) {
+            return response()->json(['message' => 'LPI not found.'], 404);
+        }
+
+        $lpi->delete();
+
+        return response()->json(['message' => 'LPI deleted successfully!']);
+    }
+
+     // Create
+     public function create_mpe(Request $request)
+     {
+         $request->validate([
+             'mtc_id' => 'required|integer',
+             'testing_equipment' => 'required|string',
+             'magnetic_particle' => 'required|string',
+             'wet_dry' => 'required|string',
+             'color' => 'required|string',
+             'magnetizing_process' => 'required|string',
+         ]);
+ 
+         $mpe = MPEModel::create([
+             'mtc_id' => $request->input('mtc_id'),
+             'testing_equipment' => $request->input('testing_equipment'),
+             'magnetic_particle' => $request->input('magnetic_particle'),
+             'wet_dry' => $request->input('wet_dry'),
+             'color' => $request->input('color'),
+             'magnetizing_process' => $request->input('magnetizing_process'),
+         ]);
+ 
+         unset($mpe['id'], $mpe['created_at'], $mpe['updated_at']);
+ 
+         return response()->json(['message' => 'MPE created successfully!', 'data' => $mpe], 201);
+     }
+ 
+     // View all or single
+     public function view_mpes(Request $request, $id = null)
+     {
+         if ($id) {
+             $mpe = MPEModel::find($id);
+             if (!$mpe) {
+                 return response()->json(['message' => 'MPE not found.'], 404);
+             }
+             return response()->json($mpe->makeHidden(['id', 'created_at', 'updated_at']));
+         }
+ 
+         $mpes = MPEModel::all()->makeHidden(['id', 'created_at', 'updated_at']);
+ 
+         return isset($mpes) && $mpes->isNotEmpty()
+             ? response()->json(['Fetch data successfully!', 'data' => $mpes, 'count' => count($mpes)], 200)
+             : response()->json(['Sorry, No data Available'], 400);
+     }
+ 
+     // Update
+     public function update_mpe(Request $request, $id)
+     {
+         $mpe = MPEModel::find($id);
+         if (!$mpe) {
+             return response()->json(['message' => 'MPE not found.'], 404);
+         }
+ 
+         $request->validate([
+             'mtc_id' => 'sometimes|integer',
+             'testing_equipment' => 'sometimes|string',
+             'magnetic_particle' => 'sometimes|string',
+             'wet_dry' => 'sometimes|string',
+             'color' => 'sometimes|string',
+             'magnetizing_process' => 'sometimes|string',
+         ]);
+ 
+         $mpe->update([
+             'mtc_id' => $request->input('mtc_id', $mpe->mtc_id),
+             'testing_equipment' => $request->input('testing_equipment', $mpe->testing_equipment),
+             'magnetic_particle' => $request->input('magnetic_particle', $mpe->magnetic_particle),
+             'wet_dry' => $request->input('wet_dry', $mpe->wet_dry),
+             'color' => $request->input('color', $mpe->color),
+             'magnetizing_process' => $request->input('magnetizing_process', $mpe->magnetizing_process),
+         ]);
+ 
+         unset($mpe['created_at'], $mpe['updated_at']);
+ 
+         return response()->json(['message' => 'MPE updated successfully!', 'data' => $mpe]);
+     }
+ 
+     // Delete
+     public function delete_mpe($id)
+     {
+        $mpe = MPEModel::find($id);
+        if (!$mpe) {
+            return response()->json(['message' => 'MPE not found.'], 404);
+        }
+ 
+        $mpe->delete();
+
+        return response()->json(['message' => 'MPE deleted successfully!']);
+     }
 }
