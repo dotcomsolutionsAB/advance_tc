@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\MTCController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TestCertificateController;
 
 Route::post('/register', [UserController::class, 'register']);
 
@@ -16,6 +17,8 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::get('/generate_certificate', [TestCertificateController::class, 'generateCertificate']);
 
     Route::post('/certificate', [CertificateController::class, 'create_certificate']);   // Create
     Route::get('/certificate', [CertificateController::class, 'view_certificate']);       // View all
