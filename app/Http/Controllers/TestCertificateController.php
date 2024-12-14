@@ -157,9 +157,20 @@ class TestCertificateController extends Controller
         // // Output the PDF inline (or save it if needed)
         // $name = "certificate_" . time() . ".pdf";
         // return $mpdf->Output($name, 'I');
+        $chemicalData = [
+            ['C', '0.18'],
+            ['MN', '0.81'],
+            ['SI', '0.19'],
+            ['S', '0.02'],
+            ['P', '0.02'],
+            ['CU', '0.05'],
+            ['NI', '0.02'],
+            ['CR', '0.04'],
+            ['MO', '0.03']
+        ];
 
         // Render the Blade template into HTML
-        $html = View::make('2_cer', compact('certificates'))->render();
+        $html = View::make('2_cer', compact('certificates', 'chemicalData'))->render();
 
         // Initialize Mpdf
         $mpdf = new Mpdf([
