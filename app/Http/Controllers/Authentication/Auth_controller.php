@@ -41,33 +41,33 @@ class Auth_controller extends Controller
         ], 201);
     }
     public function login(Request $request)
-{
-    // Validate login credentials
-    $validator = Validator::make($request->all(), [
-        'email' => 'required|string|email',
-        'password' => 'required|string|min:6',
-    ]);
+    {
+        // Validate login credentials
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email',
+            'password' => 'required|string|min:6',
+        ]);
 
-    if ($validator->fails()) {
-        return response()->json(['errors' => $validator->errors()], 422);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Find the user by email
+        $user = User::where('email', $request->email)->first();
+
+        // Check if user exists and password is correct
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(['error' => 'Invalid credentials'], 401);
+        }
+
+        // Generate a token
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        // Return success response with the token
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+        ], 200);
     }
 
-    // Find the user by email
-    $user = User::where('email', $request->email)->first();
-
-    // Check if user exists and password is correct
-    if (!$user || !Hash::check($request->password, $user->password)) {
-        return response()->json(['error' => 'Invalid credentials'], 401);
-    }
-
-    // Generate a token
-    $token = $user->createToken('auth_token')->plainTextToken;
-
-    // Return success response with the token
-    return response()->json([
-        'access_token' => $token,
-        'token_type' => 'Bearer',
-    ], 200);
 }
-
-    }
