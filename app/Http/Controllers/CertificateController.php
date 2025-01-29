@@ -205,8 +205,8 @@ class CertificateController extends Controller
         }
 
         $request->validate([
-            'tc_id' => 'sometimes|integer',
-            'mtc_id' => 'sometimes|integer',
+            'tc_id' => 'sometimes|integer|exists:t_certificate,id',
+            'mtc_id' => 'sometimes|integer|exists:t_mtc,id',
             'heat_no' => 'sometimes|string',
             'label' => 'sometimes|string',
             'value' => 'sometimes|numeric',
