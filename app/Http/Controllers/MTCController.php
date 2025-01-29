@@ -425,7 +425,7 @@ class MTCController extends Controller
          }
  
          $request->validate([
-             'mtc_id' => 'sometimes|integer',
+             'mtc_id' => 'sometimes|integer|exists:t_mtc,id',
              'testing_equipment' => 'sometimes|string',
              'magnetic_particle' => 'sometimes|string',
              'wet_dry' => 'sometimes|string',
