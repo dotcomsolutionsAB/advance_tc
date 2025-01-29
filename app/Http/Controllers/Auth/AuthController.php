@@ -245,7 +245,7 @@ class AuthController extends Controller
                     'success' => true,
                     'data' => [
                         'token' => $generated_token,
-                        'name' => $user->name,
+                        'name' => $user->username,
                         'role' => $user->role,
                         'id' => $user->id,
                     ],

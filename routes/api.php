@@ -116,24 +116,3 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/update/{id}', [DimensionalController::class, 'update_dimensional']);
     Route::delete('/delete/{id}', [DimensionalController::class, 'delete_dimensional']);
 });
-
-
-// Route::middleware([CorsMiddleware::class])->group(function () {
-//     Route::get('/data', [DataController::class, 'index']);
-//     Route::post('/data', [DataController::class, 'store']);});
-
-
-// // Handle API login
-// Route::post('/loginn', [LoginController::class, 'apiLogin']);
-
-// // Handle API logout (requires 'auth:sanctum' middleware)
-// Route::post('/logout', [LoginController::class, 'apiLogout'])->middleware('auth:sanctum');
-// Route::get('/data', [DataController::class, 'index']);
-// Route::post('/data', [DataController::class, 'store']);
-// Route::post('/login',[Auth_controller::class,'login']);
-
-
-// // Protected route to get the authenticated user's data (for API)
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
