@@ -376,7 +376,7 @@ class MTCController extends Controller
      public function create_mpe(Request $request)
      {
          $request->validate([
-             'mtc_id' => 'required|integer',
+             'mtc_id' => 'required|integer|exists:t_mtc,id',
              'testing_equipment' => 'required|string',
              'magnetic_particle' => 'required|string',
              'wet_dry' => 'required|string',
