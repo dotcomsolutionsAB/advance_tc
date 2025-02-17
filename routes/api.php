@@ -14,6 +14,7 @@ use App\Http\Controllers\TestCertificateController;
 Route::post('/register', [UserController::class, 'register']);
 
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/migrate', [ProductController::class, 'migrate_material']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);

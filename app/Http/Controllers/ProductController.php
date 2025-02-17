@@ -681,4 +681,9 @@ class ProductController extends Controller
 
         return response()->json(['message' => 'Dimensional data deleted successfully!']);
     }
+
+    public function migrate_material()
+    {
+        die("Working");
+    }
 }
